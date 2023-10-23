@@ -24,9 +24,12 @@ class _GameState extends State<Game> {
 
   //Global Variable for all logic in this screen
   List<int> _randomAns = [];
+  List<int> _randomAnsBefore = [];
   String _turn = '';
   String _instruction = '';
   String _presentPlayer = '';
+  int _sequencePressed = 0;
+  int _scoreCurrPlayer = 0;
 
   //Grid Field
   int _inActiveStatus = 0;
@@ -73,7 +76,26 @@ class _GameState extends State<Game> {
   }
 
   void ChoosingBox(int tappedIndex) {
-
+    if(_interaction){
+      if(tappedIndex == _randomAnsBefore[_sequencePressed]){
+        _sequencePressed++;
+        _scoreCurrPlayer++;
+      } else {
+        showDialog(
+          context: context, 
+          builder: (BuildContext context) => AlertDialog(
+            title: Text('Oops, Urutan Salah!'),
+            content: Text('Sayang sekali $_presentPlayer, coba lagi nanti.'),
+            actions: <Widget>[
+              TextButton(onPressed: (){
+                Navigator.pop(context, 'OK');
+              }, 
+              child: const Text('OK'))
+            ],
+          )
+        );
+      }
+    }
   }
 
   //Grid Animation
@@ -97,6 +119,7 @@ class _GameState extends State<Game> {
           _inActiveStatus = (_inActiveStatus + 1);
         } else {
           timerBox.cancel();
+          StartAnswer();
         }
       });
     });
@@ -104,10 +127,15 @@ class _GameState extends State<Game> {
 
   //This method call after all animation was done
   void StartAnswer(){
+    print(_interaction);
     setState(() {
+      _interaction = true;
       _instruction = 'Tekan tombol sesuai urutan yang ada hafalkan!';
       _activeBoxStatus = true;
       
+      //Store the current answer before it randomize again
+      _randomAnsBefore = _randomAns;
+
       for(int i=0; i<_grid; i++){
         _randomAns.add(Random().nextInt(_grid));
       }
