@@ -41,6 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _jum_ronde_cont = TextEditingController();
   String _tingkat_kesulitan = "Pilih Tingkat Kesulitan";
 
+  //Validation
+  String _validationError1 = '';
+  String _validationError2 = '';
+  String _validationError3 = '';
+
   @override
   void initState() {
     super.initState();
@@ -59,12 +64,71 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void start() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString("pemain1", _pemain1_cont.text);
-    prefs.setString("pemain2", _pemain2_cont.text);
-    prefs.setString("jumlah_ronde", _jum_ronde_cont.text);
-    prefs.setString("kesulitan", _tingkat_kesulitan);
-    Navigator.pushNamed(context, "game");
+    bool validation = true;
+    
+    //Validation for pemain1
+    if(_pemain1_cont.text.isEmpty){
+      setState(() {
+        _validationError1 = 'Nama pemain 1 tidak boleh kosong!';
+      });
+      validation = false;
+    } else {
+      setState(() {
+        _validationError1 = '';
+      });
+    }
+
+    //Validation for pemain2
+    if(_pemain2_cont.text.isEmpty){
+      setState(() {
+        _validationError2 = 'Nama pemain 2 tidak boleh kosong!';
+      });
+      validation = false;
+    } else if (_pemain1_cont.text == _pemain2_cont.text){
+      setState(() {
+        _validationError2 = 'Nama pemain tidak boleh sama!';
+      });
+      validation = false;
+    } else {
+      setState(() {
+        _validationError2 = '';
+      });
+    }
+
+    //Validation for jum_round
+    if(_jum_ronde_cont.text.isEmpty){
+      setState(() {
+        _validationError3 = 'Jumlah ronde tidak boleh kosong!';
+      });
+      validation = false;
+    } else if(int.tryParse(_jum_ronde_cont.text) == null){
+      setState(() {
+        _validationError3 = 'Jumlah ronde harus bilangan bulat!';
+      });
+      validation = false;
+    } else if(int.parse(_jum_ronde_cont.text) > 10 || int.parse(_jum_ronde_cont.text) < 1){
+      setState(() {
+        _validationError3 = 'Jumlah ronde minimal 1 dan maksimal 10';
+      });
+      validation = false;
+    } else {
+      setState(() {
+        _validationError3 = '';
+      });
+    }
+
+    if(validation){
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString("pemain1", _pemain1_cont.text);
+      prefs.setString("pemain2", _pemain2_cont.text);
+      prefs.setString("jumlah_ronde", _jum_ronde_cont.text);
+
+      if(_tingkat_kesulitan == "Pilih Tingkat Kesulitan"){
+        _tingkat_kesulitan = "Gampang";
+      }
+      prefs.setString("kesulitan", _tingkat_kesulitan);
+      Navigator.pushNamed(context, "game");
+    }
   }
 
   @override
@@ -83,8 +147,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   margin: EdgeInsets.all(16.0),
                   child: TextField(
                   controller: _pemain1_cont,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Nama Pemain #1',
+                    errorText: _validationError1,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -98,8 +163,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   margin: EdgeInsets.all(16.0),
                   child: TextField(
                   controller: _pemain2_cont,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Nama Pemain #2',
+                    errorText: _validationError2,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
@@ -114,8 +180,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: TextField(
                   controller: _jum_ronde_cont,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Jumlah Ronde',
+                    errorText: _validationError3,
                     floatingLabelBehavior: FloatingLabelBehavior.auto,
                     border: OutlineInputBorder(),
                     focusedBorder: OutlineInputBorder(
