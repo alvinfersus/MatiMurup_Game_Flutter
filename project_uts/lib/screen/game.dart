@@ -15,15 +15,18 @@ class Game extends StatefulWidget {
 }
 
 class _GameState extends State<Game> {
+  //Initial variable for storing data in shared preferences
   String _pemain1 = '';
   String _pemain2 = '';
   String _jum_ronde = '';
   String _tingkat_kesulitan = '';
   int _grid = 0;
 
+  //Global Variable for all logic in this screen
   List<int> _randomAns = [];
   String _turn = '';
   String _instruction = '';
+  String _presentPlayer = '';
 
   //Grid Field
   int _inActiveStatus = 0;
@@ -66,9 +69,10 @@ class _GameState extends State<Game> {
     print(_randomAns);
     _turn = _pemain1;
     _instruction = "Hafalkan Polanya!";
+    _presentPlayer = _pemain1;
   }
 
-  void _handleBoxTap(int tappedIndex) {
+  void ChoosingBox(int tappedIndex) {
 
   }
 
@@ -98,6 +102,7 @@ class _GameState extends State<Game> {
     });
   }
 
+  //This method call after all animation was done
   void StartAnswer(){
     setState(() {
       _instruction = 'Tekan tombol sesuai urutan yang ada hafalkan!';
@@ -118,6 +123,25 @@ class _GameState extends State<Game> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Text(
+                  'Giliran $_presentPlayer',
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  '$_instruction',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                // Text(
+                //   '${formatTime(_elapsedTime)}',
+                //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                // ),
+              ],
+            ),
+          ),
           Flexible(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -126,7 +150,7 @@ class _GameState extends State<Game> {
                 activeBoxStatus: _activeBoxStatus,
                 interaksi: _interaction,
                 randomNumber: _randomAns,
-                onTap: _handleBoxTap,
+                onTap: ChoosingBox,
                 inActiveStatus: _randomAns[_inActiveStatus]
               ),
             ),

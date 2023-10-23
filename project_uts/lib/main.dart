@@ -53,11 +53,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _pemain1_cont.text = prefs.getString("pemain1") ?? '';
       _pemain2_cont.text = prefs.getString("pemain2") ?? '';
       _jum_ronde_cont.text = prefs.getString("jumlah_ronde") ?? '';
-      _tingkat_kesulitan = prefs.getString("kesulitan") ?? 'Pilih Tingkat Kesulitan';
+      _tingkat_kesulitan =
+          prefs.getString("kesulitan") ?? 'Pilih Tingkat Kesulitan';
     });
   }
 
-  void start() async{
+  void start() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString("pemain1", _pemain1_cont.text);
     prefs.setString("pemain2", _pemain2_cont.text);
@@ -69,81 +70,92 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _pemain1_cont,
-              decoration: const InputDecoration(
-                labelText: 'Nama Pemain #1',
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                border: OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
-                ),
-              ),
-              onChanged: (v) {},
-            ),
-            TextField(
-              controller: _pemain2_cont,
-              decoration: const InputDecoration(
-                labelText: 'Nama Pemain #2',
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                border: OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
-                ),
-              ),
-              onChanged: (v) {},
-            ),
-            TextField(
-              controller: _jum_ronde_cont,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Jumlah Ronde',
-                floatingLabelBehavior: FloatingLabelBehavior.auto,
-                border: OutlineInputBorder(),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
-                ),
-              ),
-              onChanged: (v) {},
-            ),
-            DropdownButton(
-                hint: Text(_tingkat_kesulitan),
-                items: const [
-                  DropdownMenuItem(
-                    child: Text("Gampang"),
-                    value: "Gampang",
-                  ),
-                  DropdownMenuItem(
-                    child: Text("Sedang"),
-                    value: "Sedang",
-                  ),
-                  DropdownMenuItem(
-                    child: Text("Susah"),
-                    value: "Susah",
-                  ),
-                ],
-                onChanged: (value) {
-                  setState(() {
-                    _tingkat_kesulitan = value!;
-                  });
-                }),
-            ElevatedButton(
-                style: ButtonStyle(elevation: MaterialStateProperty.all(5)),
-                onPressed: () {
-                  start();
-                },
-                child: Text('MULAI'))
-          ],
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(widget.title),
         ),
-      ),
-    );
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: TextField(
+                  controller: _pemain1_cont,
+                  decoration: const InputDecoration(
+                    labelText: 'Nama Pemain #1',
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  onChanged: (v) {},
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: TextField(
+                  controller: _pemain2_cont,
+                  decoration: const InputDecoration(
+                    labelText: 'Nama Pemain #2',
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  onChanged: (v) {},
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: TextField(
+                  controller: _jum_ronde_cont,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: 'Jumlah Ronde',
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.blue),
+                    ),
+                  ),
+                  onChanged: (v) {},
+                  ),
+                ),
+                DropdownButton(
+                  hint: Text(_tingkat_kesulitan),
+                  items: const [
+                    DropdownMenuItem(
+                      child: Text("Gampang"),
+                      value: "Gampang",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Sedang"),
+                      value: "Sedang",
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Susah"),
+                      value: "Susah",
+                    ),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _tingkat_kesulitan = value!;
+                    });
+                  }),
+                ElevatedButton(
+                  style: ButtonStyle(elevation: MaterialStateProperty.all(5)),
+                  onPressed: () {
+                    start();
+                  },
+                  child: Text('MULAI')
+                )
+              ],
+            ),
+          ),
+        );
   }
 }
