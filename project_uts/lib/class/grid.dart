@@ -4,7 +4,6 @@ class GameGrid extends StatelessWidget {
   final int gridCount;
   final bool activeBoxStatus;
   final bool interaksi;
-  final List<int> randomNumber;
   final Function(int) onTap;
   final int inActiveStatus;
 
@@ -12,7 +11,6 @@ class GameGrid extends StatelessWidget {
       {required this.gridCount,
       required this.activeBoxStatus,
       required this.interaksi,
-      required this.randomNumber,
       required this.onTap,
       required this.inActiveStatus});
 

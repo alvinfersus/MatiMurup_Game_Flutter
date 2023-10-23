@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(title: 'Setup Permainan'),
       routes: {
-        'game': (context) => Game(listHasil: [], ronde: 1),
+        'game': (context) => Game(round: 1),
       },
     );
   }
@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _pemain2_cont.text = prefs.getString("pemain2") ?? '';
       _jum_ronde_cont.text = prefs.getString("jumlah_ronde") ?? '';
       _tingkat_kesulitan =
-          prefs.getString("kesulitan") ?? 'Pilih Tingkat Kesulitan';
+      prefs.getString("kesulitan") ?? 'Pilih Tingkat Kesulitan';
     });
   }
 
