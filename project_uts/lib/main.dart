@@ -125,7 +125,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   onChanged: (v) {},
                   ),
                 ),
-                DropdownButton(
+                Container(
+                  margin: EdgeInsets.all(16.0),
+                  child: DropdownButton(
+                  isExpanded: true,
                   hint: Text(_tingkat_kesulitan),
                   items: const [
                     DropdownMenuItem(
@@ -146,12 +149,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       _tingkat_kesulitan = value!;
                     });
                   }),
-                ElevatedButton(
-                  style: ButtonStyle(elevation: MaterialStateProperty.all(5)),
-                  onPressed: () {
-                    start();
-                  },
-                  child: Text('MULAI')
+                ),
+                Container(
+                  margin: EdgeInsets.all(30.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(elevation: MaterialStateProperty.all(5)),
+                    onPressed: () {
+                      start();
+                    },
+                    child: Text('MULAI')
+                  ),
                 )
               ],
             ),

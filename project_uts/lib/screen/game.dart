@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:project_uts/class/grid.dart';
+import 'package:project_uts/screen/round_finish.dart';
 import 'package:project_uts/screen/round_result.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -141,7 +142,9 @@ class _GameState extends State<Game> {
         CheckWinner();
 
         if(_listWinnerStatus.length >= int.parse(_jum_ronde)){
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RoundFinish()));
         } else {
           Navigator.push(
             context,
@@ -156,11 +159,11 @@ class _GameState extends State<Game> {
   void CheckWinner(){
     String _result = '';
     if(_scorePlayer1 > _scorePlayer2){
-      _listWinnerStatus.add('round: ${widget.round}-winner: $_pemain1');
+      _listWinnerStatus.add('round: ${widget.round}-winner: ${_pemain1.toUpperCase()}');
     } else if (_scorePlayer2 > _scorePlayer1){
-      _listWinnerStatus.add('round: ${widget.round}-winner: $_pemain2');
+      _listWinnerStatus.add('round: ${widget.round}-winner: ${_pemain2.toUpperCase()}');
     } else {
-      _listWinnerStatus.add('round: ${widget.round}-winner: seimbang');
+      _listWinnerStatus.add('round: ${widget.round}-winner: SEIMBANG');
     }
     SaveWinner();
   }
@@ -227,10 +230,6 @@ class _GameState extends State<Game> {
       
       //Store the current answer before it randomize again
       _randomAnsBefore = _randomAns;
-
-      // for(int i=0; i<_grid; i++){
-      //   _randomAns.add(Random().nextInt(_grid));
-      // }
     });
   }
 

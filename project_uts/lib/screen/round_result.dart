@@ -31,7 +31,7 @@ class _RoundResultState extends State<RoundResult> {
       _pemain1 = prefs.getString("pemain1") ?? '';
       _pemain2 = prefs.getString("pemain2") ?? '';
       _jum_ronde = prefs.getString("jumlah_ronde") ?? '';
-      _tingkat_kesulitan = prefs.getString("kesulitan") ?? 'Pilih Tingkat Kesulitan';
+      _tingkat_kesulitan = prefs.getString("kesulitan") ?? '';
 
       //Retrieve list of winner in every round
       String _listWinner = prefs.getString('list_winner') ?? '';
